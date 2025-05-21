@@ -1,0 +1,112 @@
+/* REGISTRATION */
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	width: 100%;
+	min-height: 80vh;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	overflow: hidden;
+}
+.registration-form, .login-form{
+	margin: 15% auto;
+	max-width: 400px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 30px;
+	padding: 20px;
+	border-radius: 15px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+.registration-form h1, .login-form h1{
+	color: #21a9f8;
+}
+.registration-form a, .login-form a{
+	color: #21a9f8;
+	font-weight: 500;
+	text-decoration: none;
+	transition: filter 0.3s ease;
+}
+.registration-form button, .login-form button {
+	color: #21a9f8;
+	font-weight: 500;
+	max-width: 350px;
+	border-radius: 15px;
+	width: 100%;
+	border: 0;
+	background-color: #fff;
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+	transition: filter 0.3s ease;
+	padding: 10px 0px;
+	cursor: pointer;
+	transition: filter 0.3s ease;
+}
+.registration-form a:hover, .registration-form button:hover, .login-form a:hover, .login-form button:hover {
+	filter: brightness(80%);
+}
+.registration-form a:active, .registration-form button:active , .login-form a:active, .login-form button:active{
+	filter: brightness(70%);
+}
+.input-container {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+.input-container input {
+	max-width: 350px;
+	width: 100vw;
+	padding: 10px 10px;
+	border-radius: 10px;
+	outline: 0;
+	border: 0;
+	color: #21a9f8;
+	font-weight: 500;
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+	transition: filter 0.3s ease;
+	margin-bottom: 5px;
+	box-sizing: border-box;
+}
+.input-container input:hover, .registration-form input:hover {
+	filter: brightness(90%);
+}
+.input-container input:focus, .registration-form input:focus {
+	filter: brightness(80%);
+}
+.input-container input::placeholder, .registration-form input::placeholder{
+	color: #21a9f8;
+	font-weight: 500;
+}
+.input-container .error {
+	color: #f84121;
+	border: 1px solid #f84121;
+}
+.input-container .error::placeholder {
+	color: #f84121;
+	font-weight: 500;
+}
+.error-msg {
+	color: #f84121;
+	font-size: 14px;
+}
+.back {
+	position: absolute;
+	top: 5%;
+	left: 5%;
+}
+.back svg {
+	width: 60px;
+	height: 60px;
+	transition: filter 0.3s ease;
+}
+.back path {
+	border-radius: 100px;
+}
+.back svg:hover {
+	filter: brightness(80%);
+}
+.back svg:active {
+	filter: brightness(60%);
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <a href="./index.html" class="back">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path fill="#21a9f8" d="M256 73.825a182.18 182.18 0 0 0-182.18 182.18c0 100.617 81.567 182.17 182.18 182.17a182.175 182.175 0 1 0 0-364.35zm76.636 161.579h-12.037v91.503a18.908 18.908 0 0 1-18.896 18.904h-26.78v-53.56a6.299 6.299 0 0 0-6.297-6.294H232.4a6.3 6.3 0 0 0-6.302 6.294v53.56h-26.771a18.91 18.91 0 0 1-18.906-18.904v-91.503h-11.97a7.879 7.879 0 0 1-5.071-13.905l82.055-69.039a7.89 7.89 0 0 1 10.142 0l81.479 68.547a7.88 7.88 0 0 1-4.421 14.396z" data-name="Home"/>
+    </svg>
+    </a>
+    <form class="registration-form">
+        <h1>Регистрация</h1>
+        <div class="input-container">
+          <div class="input-group">
+            <input type="text" placeholder="Логин">
+            <div class="error-name-message error-msg"></div>
+          </div>
+          <div class="input-group">
+            <input type="password" placeholder="Пароль" id="password">
+            <div class="error-pass-message error-msg"></div>
+          </div>
+          <div class="input-group">
+            <input type="password" placeholder="Повторите пароль" id="confirm-password">
+            <div class="error-conf-message error-msg"></div>
+          </div>
+        </div>
+        <a href="./login.html">Уже зарегистированы?</a>
+        <button id="reg-btn">Зарегистрироваться</button>
+    </form>
+</body>
+</html>
+
+<script>
+  const registrationButton = document.getElementById('reg-btn');
+
+  registrationButton.addEventListener('click', async (event) => {
+    event.preventDefault();
+    
+    const username = document.querySelector('input[type="text"]').value;
+    const password = document.getElementById('password').value;
+    const usernameInput = document.querySelector('input[type="text"]');
+    const confirmPassword = document.getElementById('confirm-password').value;
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm-password');
+    const errorUsername = document.querySelector('.error-name-message')
+    const errorPassword = document.querySelector('.error-pass-message')
+    const errorConfirmPassword = document.querySelector('.error-conf-message')
+    console.log(errorConfirmPassword);
+    usernameInput.addEventListener('click', function() {
+      usernameInput.classList.remove('error');
+      errorUsername.innerHTML = ""
+    })
+    passwordInput.addEventListener('click', function() {
+      passwordInput.classList.remove('error');
+      errorPassword.innerHTML = ""
+      errorConfirmPassword.innerHTML = ""
+    })
+    confirmPasswordInput.addEventListener('click', function() {
+      confirmPasswordInput.classList.remove('error');
+      errorPassword.innerHTML = ""
+      errorConfirmPassword.innerHTML = ""
+    })
+    let dataErrors = '';
+    // 1. Проверка совпадения паролей
+    if (password !== confirmPassword) {
+      passwordInput.classList.add('error')
+      errorConfirmPassword.innerHTML = 'Пароли должны совпадать'
+      confirmPasswordInput.classList.add('error')
+      return;
+    }
+
+    // 2. Отправка данных на бэкенд
+    try {
+      const response = await fetch('http://localhost:3000/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+      
+      if (response.ok) {
+        alert("Регистрация успешна!");
+        // Перенаправляем на страницу входа
+        window.location.href = 'login.html';
+      } else {
+        if(data.message) {
+          if(data.message.includes('Пользователь')) {
+            usernameInput.classList.add('error')
+            errorUsername.innerHTML = data.message
+          }
+        }
+        if(data.errors)
+        dataErrors = data.errors.errors.forEach(error => {
+          console.log(error.msg);
+          if(error.msg && error.msg.includes('Пароль')) {
+            passwordInput.classList.add('error')
+            confirmPasswordInput.classList.add('error')
+            errorPassword.innerHTML = error.msg
+          };
+          if(error.msg && error.msg.includes('Имя')) {
+            usernameInput.classList.add('error')
+            errorUsername.innerHTML = error.msg
+          };
+        });
+      }
+    } catch (error) {
+      console.error("Ошибка:", error);
+      alert("Сервер не отвечает");
+    }
+  });
+</script>
